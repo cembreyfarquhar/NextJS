@@ -1,3 +1,5 @@
+require("dotenv").config();
+
 const express = require("express");
 const knex = require("knex");
 const cors = require("cors");
@@ -7,6 +9,8 @@ const knexConfig = require("./knexfile.js");
 const db = knex(knexConfig.development);
 
 const app = express();
+
+const port = process.env.PORT || 5000;
 
 app.use(express.json());
 app.use(cors());
@@ -30,7 +34,7 @@ app.post("/todos", (req, res) => {
   const todo = req.body.input;
 
   db("todos")
-    .insert({ "task": todo })
+    .insert({ task: todo })
     .then(ids => {
       res.status(201).json(ids);
     })
@@ -39,4 +43,4 @@ app.post("/todos", (req, res) => {
     });
 });
 
-app.listen(5000, () => console.log("Listening on port 5000"));
+app.listen(port, () => console.log(`Listening on port ${port}`));
