@@ -10,7 +10,7 @@ const Index = () => {
   });
 
   const getTodos = () => {
-    Axios.get("http://localhost:5000/todos")
+    Axios.get("https://todolistbe.herokuapp.com/todos")
       .then(res => {
         const todos = res.data;
         setTodos(
@@ -23,7 +23,7 @@ const Index = () => {
   };
 
   const addTodo = () => {
-    Axios.post("http://localhost:5000/todos", { input })
+    Axios.post("https://todolistbe.herokuapp.com/todos", { input })
       .then(res => {
         console.log("ADD TODO RESPONSE: ", res);
       })
