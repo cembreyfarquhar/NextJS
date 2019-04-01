@@ -8,6 +8,7 @@ const ChatForm = () => {
   const addMessage = event => {
     event.preventDefault();
     const message = { author, text };
+    setMsgInput("");
     Axios.post("http://localhost:8549/messages", message)
       .then(res => {
         console.log("ADD MESSAGE ", res);
@@ -17,10 +18,21 @@ const ChatForm = () => {
 
   return (
     <div>
-      <form>
-        <h2>Send a message</h2>
-        <label>Author: </label>
-        <input type="text" onChange={event => setAuthor(event.target.value)} />
+      <style jsx>{`
+        div {
+          width: 100%;
+          position: absolute;
+        }
+        form {
+          width: 100%;
+        }
+        input {
+          width: 100%;
+          max-width: 100vw;
+          height: 10vh;
+        }
+      `}</style>
+      <form onSubmit={addMessage}>
         <br />
         <input
           type="text"
@@ -28,7 +40,6 @@ const ChatForm = () => {
           value={text}
         />
         <br />
-        <button onClick={addMessage}>Send Message</button>
       </form>
     </div>
   );

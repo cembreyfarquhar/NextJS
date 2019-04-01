@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import Header from "../components/header";
+import Meta from "../components/meta";
 import ChatForm from "../components/chatForm";
 import ChatList from "../components/chatList";
 import Axios from "axios";
@@ -37,33 +38,29 @@ const Index = () => {
 
   return (
     <main>
+      <Meta />
       <style jsx>{`
-      body {
-      }
-      main {
-        background-color: #142634;
-        color: #7E8889;
-      }
+        main {
+          background-color: #37474f;
+          color: #7e8889;
+          overflow-y: hidden;
+          min-height: 100vh;
+        }
         section {
           max-width: 100%;
           width: 100vw;
+          overflow-x: hidden;
           display: flex;
-          justify-content: space-evenly;
-        }
-        div {
-          width: 75vw;
-          height: 85vh;
-          border: 2px solid red;
+          justify-content: flex-end;
           display: flex;
-          justify-content: center;
+          flex-direction: column;
         }
       `}</style>
-      <Header />
+      {/* <Header /> */}
       <section>
-        <h2>{hello}</h2>
         <div>
-          <ChatForm />
           <ChatList messages={messages} />
+          <ChatForm />
         </div>
       </section>
     </main>
