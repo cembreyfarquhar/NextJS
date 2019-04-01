@@ -15,26 +15,25 @@ const port = process.env.PORT || 5000;
 app.use(express.json());
 app.use(cors());
 
-// check if server is up
 app.get("/", (req, res) => {
-  res.send("Wow it's working!!!");
+  res.send("IT'S ALIVE!!!");
 });
 
-// get list of todos
-app.get("/todos", (req, res) => {
-  db("todos")
-    .then(notes => {
-      res.status(200).json(notes);
+// get list of messages
+app.get("/messages", (req, res) => {
+  db("messages")
+    .then(messages => {
+      res.status(200).json(messages);
     })
     .catch(err => res.status(500).json(err));
 });
 
-// create a todo
-app.post("/todos", (req, res) => {
-  const todo = req.body.input;
+// create a message
+app.post("/messages", (req, res) => {
+  const { author, text } = req.body;
 
-  db("todos")
-    .insert({ task: todo })
+  db("messages")
+    .insert({ author, text })
     .then(ids => {
       res.status(201).json(ids);
     })

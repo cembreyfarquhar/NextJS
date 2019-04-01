@@ -10,7 +10,7 @@ function Header() {
           }
         }
       `}</style>
-      <h1>Todo list using Hooks!!!</h1>
+      <h1><em>almost</em> Instant Messenger</h1>
     </header>
   );
 }

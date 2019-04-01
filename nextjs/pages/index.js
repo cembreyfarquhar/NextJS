@@ -1,71 +1,70 @@
 import { useState, useEffect } from "react";
 import Header from "../components/header";
+import ChatForm from "../components/chatForm";
+import ChatList from "../components/chatList";
 import Axios from "axios";
 
 const Index = () => {
-  const [todos, setTodos] = useState([]);
-  const [input, handleInput] = useState("");
-  useEffect(() => {
-    getTodos();
+  // const [todos, setTodos] = useState([]);
+  // const [input, handleInput] = useState("");
+  // useEffect(() => {
+  //   getTodos();
+  // });
+
+  const [hello, setHello] = useState("uh");
+
+  // Gets home screen message from server, which is being displayed as an h2
+  Axios.get("http://localhost:8549/").then(res => {
+    setHello(res.data);
   });
 
-  const getTodos = () => {
-    Axios.get("https://todolistbe.herokuapp.com/todos")
-      .then(res => {
-        const todos = res.data;
-        setTodos(
-          todos.map(todo => {
-            return todo.task;
-          })
-        );
-      })
-      .catch(err => console.log(err));
+  const [messages, setMessages] = useState([]);
+
+  const getMessages = () => {
+    Axios.get("http://localhost:8549/messages").then(res => {
+      const newMessages = res.data;
+      setMessages(
+        newMessages.map(message => {
+          return message;
+        })
+      );
+    });
   };
 
-  const addTodo = () => {
-    Axios.post("https://todolistbe.herokuapp.com/todos", { input })
-      .then(res => {
-        console.log("ADD TODO RESPONSE: ", res);
-      })
-      .catch(err => {
-        console.log(err);
-      });
-  };
+  useEffect(() => {
+    getMessages();
+  });
+
   return (
     <main>
       <style jsx>{`
+      body {
+      }
+      main {
+        background-color: #142634;
+        color: #7E8889;
+      }
         section {
           max-width: 100%;
           width: 100vw;
           display: flex;
-          flex-direction: column;
-          align-items: center;
+          justify-content: space-evenly;
+        }
+        div {
+          width: 75vw;
+          height: 85vh;
+          border: 2px solid red;
+          display: flex;
+          justify-content: center;
         }
       `}</style>
       <Header />
       <section>
-        <h2>Todos</h2>
-        <ul>
-          {todos.map(todo => (
-            <li>{todo}</li>
-          ))}
-        </ul>
-        <form
-          onSubmit={event => {
-            event.preventDefault();
-            addTodo();
-            handleInput("");
-          }}
-        >
-          <label>Task: </label>
-          <input
-            type="text"
-            name="task"
-            onChange={event => handleInput(event.target.value)}
-            value={input}
-          />
-          <br />
-        </form>
+        <h2>{hello}</h2>
+        <div>
+          <ChatForm />
+          <ChatList messages={messages} />
+        </div>
       </section>
     </main>
   );
