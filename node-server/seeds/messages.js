@@ -5,8 +5,8 @@ exports.seed = function(knex, Promise) {
     .then(() => {
       // Inserts seed entries
       return knex("messages").insert([
-        { id: 1, author: "Mark", text: "Hello this is a seed message!" },
-        { id: 2, author: "Mark", text: "This is a seed too!" }
+        { id: 1, author: "Alice", text: "Hello this is a seed message!" },
+        { id: 2, author: "Bob", text: "This is a seed too!" }
       ]);
     });
 };

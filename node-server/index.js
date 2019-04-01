@@ -3,6 +3,7 @@ require("dotenv").config();
 const express = require("express");
 const knex = require("knex");
 const cors = require("cors");
+const bcrypt = require("bcryptjs");
 
 const knexConfig = require("./knexfile.js");
 
@@ -19,8 +20,13 @@ app.get("/", (req, res) => {
   res.send("IT'S ALIVE!!!");
 });
 
+///       MESSAGES
+///       MESSAGES
+///       MESSAGES
+///       MESSAGES
+
 // get list of messages
-app.get("/messages", (req, res) => {
+app.get("/api/messages", (req, res) => {
   db("messages")
     .then(messages => {
       res.status(200).json(messages);
@@ -29,7 +35,7 @@ app.get("/messages", (req, res) => {
 });
 
 // create a message
-app.post("/messages", (req, res) => {
+app.post("/api/messages", (req, res) => {
   const { author, text } = req.body;
 
   db("messages")
@@ -39,6 +45,41 @@ app.post("/messages", (req, res) => {
     })
     .catch(err => {
       res.status(500).json({ error: err });
+    });
+});
+
+///       USERS
+///       USERS
+///       USERS
+///       USERS
+
+// get list of users
+// !!! should be restricted !!!
+app.get("/api/users", (req, res) => {
+  db("users")
+    .then(users => {
+      res.status(200).json(users);
+    })
+    .catch(err => res.status(500).json(err));
+});
+
+// login user
+app.post("/api/login", (req, res) => {
+  const { username, password } = req.body;
+
+  db("users")
+    .where({ username })
+    .first()
+    .then(user => {
+      // check password guess against db
+      if (user && bcrypt.compareSync(password, user.password)) {
+        res.status(200).json({ username: user.username });
+      } else {
+        res.status(401).json({ message: "Invalid credentials" });
+      }
+    })
+    .catch(err => {
+      res.status(500).json(err);
     });
 });
 
