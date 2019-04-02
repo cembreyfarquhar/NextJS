@@ -3,8 +3,9 @@ exports.up = function(knex, Promise) {
     // primary key
     tbl.increments();
 
-    tbl.string("author", 128);
-    tbl.string("text", 255);
+    tbl.string("author", 128).notNullable();
+    tbl.string("text", 255).notNullable();
+    tbl.string("dateTime", 255).notNullable();
   });
 };
 
