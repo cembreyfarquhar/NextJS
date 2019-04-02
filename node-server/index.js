@@ -36,10 +36,10 @@ app.get("/api/messages", (req, res) => {
 
 // create a message
 app.post("/api/messages", (req, res) => {
-  const { author, text } = req.body;
+  const { author, text, dateTime } = req.body;
 
   db("messages")
-    .insert({ author, text })
+    .insert({ author, text, dateTime })
     .then(ids => {
       res.status(201).json(ids);
     })
