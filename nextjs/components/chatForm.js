@@ -5,11 +5,12 @@ import moment from "moment";
 const ChatForm = () => {
   const [text, setMsgInput] = useState("");
   const author = localStorage.getItem("username");
-  const dateTime = 'hey'
+  // const dateTime = moment().format('MMMM Do YYYY, h:mm a')
+  const dateTime = Date.now()
 
   const addMessage = event => {
     event.preventDefault();
-    const message = { author, text };
+    const message = { author, text, dateTime };
     setMsgInput("");
     Axios.post("http://localhost:8549/api/messages", message)
       .then(res => {

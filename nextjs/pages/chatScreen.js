@@ -7,7 +7,6 @@ import Axios from "axios";
 const ChatScreen = () => {
   const [messages, setMessages] = useState([]);
 
-
   const getMessages = () => {
     Axios.get("http://localhost:8549/api/messages").then(res => {
       const newMessages = res.data;
@@ -45,10 +44,12 @@ const ChatScreen = () => {
           flex-direction: column;
           margin: 0;
           padding: 0;
+          height: 100%;
         }
         div {
-            margin: 0;
-            padding: 0;
+          margin: 0;
+          padding: 0;
+          height: 100%;
         }
       `}</style>
       <section>
