@@ -1,66 +1,57 @@
-import { useState, useEffect } from "react";
-import Header from "../components/header";
-import Meta from "../components/meta";
-import ChatForm from "../components/chatForm";
-import ChatList from "../components/chatList";
+import Link from "next/link";
+import { useState } from "react";
 import Axios from "axios";
 
 const Index = () => {
-  // const [todos, setTodos] = useState([]);
-  // const [input, handleInput] = useState("");
-  // useEffect(() => {
-  //   getTodos();
-  // });
+  const [usernameText, setUsernameText] = useState("");
+  const [passwordText, setPasswordText] = useState("");
 
-  const [hello, setHello] = useState("uh");
+  const url = "http://localhost:8549";
 
-  // Gets home screen message from server, which is being displayed as an h2
-  Axios.get("http://localhost:8549/").then(res => {
-    setHello(res.data);
-  });
-
-  const [messages, setMessages] = useState([]);
-
-  const getMessages = () => {
-    Axios.get("http://localhost:8549/messages").then(res => {
-      const newMessages = res.data;
-      setMessages(
-        newMessages.map(message => {
-          return message;
-        })
-      );
-    });
+  const login = event => {
+    Axios.post(`${url}/api/login`, {
+      username: usernameText,
+      password: passwordText
+    })
+      .then(res => {
+        if (res.status == 200) {
+          localStorage.setItem("username", res.data.username);
+        } else {
+          alert("Invalid username or password. Try again");
+        }
+      })
+      .catch(res => {
+        console.log(res);
+      });
   };
-
-  useEffect(() => {
-    getMessages();
-  });
 
   return (
     <main>
-      <Meta />
-      <style jsx>{`
-        main {
-          background-color: #37474f;
-          color: #7e8889;
-          overflow-y: hidden;
-          min-height: 100vh;
-        }
-        section {
-          max-width: 100%;
-          width: 100vw;
-          overflow-x: hidden;
-          display: flex;
-          justify-content: flex-end;
-          display: flex;
-          flex-direction: column;
-        }
-      `}</style>
-      {/* <Header /> */}
       <section>
         <div>
-          <ChatList messages={messages} />
-          <ChatForm />
+          <h1>Welcome to _almost_ instant messenger!</h1>
+          <h2>Please login below</h2>
+          <div>
+            <form onSubmit={login}>
+              <label>Username: </label>
+              <input
+                type="text"
+                onChange={event => setUsernameText(event.target.value)}
+                value={usernameText}
+              />
+              <label>Password: </label>
+              <input
+                type="password"
+                onChange={event => setPasswordText(event.target.value)}
+                value={passwordText}
+              />
+              <Link href="chatScreen">
+                <a>
+                  <button onClick={login}>Login</button>
+                </a>
+              </Link>
+            </form>
+          </div>
         </div>
       </section>
     </main>

@@ -10,6 +10,7 @@ export default () => (
         body {
           box-sizing: border-box;
           font-size: 62.5%;
+          margin: 0;
         }
       `}
     </style>
